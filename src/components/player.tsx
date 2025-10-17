@@ -1,58 +1,43 @@
 'use client';
 import { ISelectedCard } from "@/@types/types";
-import React from "react";
+import { getRandomCard } from "@/utils/deck-cards";
+import React, { useEffect } from "react";
+import { Card } from "./card";
 
 interface IPlayer {
   size: { width: number; height: number };
   selectedCard: ISelectedCard
+  revealCards: boolean;
 }
 
-interface ICard {
-  cardX: number;
-  cardY: number;
-  angle: number;
-  isTop: boolean;
-  cardValue: ISelectedCard;
-}
-
-export const Player = ({ size, selectedCard }: IPlayer) => {
+export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
+  const [simulatedCards, setSimulatedCards] = React.useState<{ [key: number]: ISelectedCard }>({});
 
   const players = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
     name: `Player ${i + 1}`,
     avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=${i + 1}`,
-    cardValue: { value: "?", description: undefined },
+    cardValue: { value: "?", description: '' },
   }));
 
   const rx = size.width * 0.55;
   const ry = size.height * 0.55;
   const offset = size.width * 0.1;
 
-
-  const Card = ({ cardX, cardY, angle, isTop, cardValue }: ICard) => {
-    return (
-      <div
-        className="absolute w-10 h-14 bg-white rounded-md shadow-lg flex items-center justify-center text-xl font-bold text-gray-800 select-none"
-        style={{
-          left: `${cardX}px`,
-          top: `${cardY}px`,
-          transform: isTop ? `rotate(${(angle * 180) / Math.PI + 90}deg)` : `rotate(${(angle * 180) / Math.PI + 90}deg)`,
-        }}
-      >
-        <div
-          className={`absolute w-10 h-14 rounded-md shadow-lg flex items-center justify-center flex-col text-sm font-bold ${cardValue.value === "?"
-            ? "bg-blue-600 text-white"
-            : "bg-white text-gray-800"
-            }`}
-        >
-          {cardValue.value}
-          {cardValue.description && (
-            <span className="text-[8px] text-center font-normal mt-0.5">{cardValue.description}</span>
-          )}
-        </div>
-      </div>
-    )
-  }
+  useEffect(() => {
+    if (revealCards) {
+      const randomCards: { [key: number]: ISelectedCard } = {};
+      // Simula que cada jogador recebeu uma carta aleatória ao revelar
+      players.forEach((p) => {
+        if (p.id !== 1) {
+          randomCards[p.id] = getRandomCard("fibonacci");
+        }
+      });
+      setSimulatedCards(randomCards);
+    } else {
+      setSimulatedCards({});
+    }
+  }, [revealCards]);
 
   return (
     <>
@@ -85,7 +70,8 @@ export const Player = ({ size, selectedCard }: IPlayer) => {
               cardY={cardY}
               angle={angle}
               isTop={isTop}
-              cardValue={isLocalPlayer && selectedCard ? selectedCard : p.cardValue}
+              cardValue={isLocalPlayer ? selectedCard : simulatedCards[p.id] || { value: "?", description: '' }}
+              reveal={revealCards}
             />
 
             {/* Avatar */}

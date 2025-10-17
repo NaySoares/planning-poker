@@ -3,12 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { Player } from "./player";
 import { ISelectedCard } from "@/@types/types";
 import { TaskCard } from "./task-card";
+import CoinFlip from "./coin";
 
 interface IPokerTable {
   selectedCard: ISelectedCard
+  revealCards: boolean
 }
 
-export function PokerTable({ selectedCard }: IPokerTable) {
+export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
   const tableRef = useRef(null);
   const [size, setSize] = useState({ width: 600, height: 300 });
 
@@ -53,7 +55,7 @@ export function PokerTable({ selectedCard }: IPokerTable) {
 
           <TaskCard title={task.title} description={task.description} />
 
-          <Player size={size} selectedCard={selectedCard} />
+          <Player size={size} selectedCard={selectedCard} revealCards={revealCards} />
         </div>
       </div>
     </>
