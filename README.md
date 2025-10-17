@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Planning Poker Scrum
 
-## Getting Started
+## Cartas/estimativas dos jogadores
 
-First, run the development server:
+- [x] Cada jogador precisa ter uma mão de cartas.
+- [x] Cartas devem ser clicáveis para o jogador escolher sua estimativa.
+- [x] Cada carta clicada deve ficar visível apenas para o jogador até a rodada ser revelada.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Revelação das cartas
+- [x] Quando todos os jogadores escolherem ou o moderador liberar, as cartas devem virar mostrando a estimativa.
+- [x] Pode incluir animação de flip 3D para dar efeito visual.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Status da rodada
+- [ ] Indicar quantos jogadores já estimaram.
+- [ ] Mostrar quem ainda não escolheu (opcional).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Interação do moderador / central
+- [ ] Controlar o início e fim da rodada.
+- [ ] Permitir reiniciar para a próxima tarefa.
+- [ ] Atualizar o quadro central para nova tarefa.
+- [ ] Cadastrar várias tarefas antes e durante as rodadas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Feedback visual
+- [x] Cartas clicadas podem ter destaque visual para o jogador.
+- [x] Animação para tornar mais interativo.
 
-## Learn More
+## Backend / sincronização
 
-To learn more about Next.js, take a look at the following resources:
+- [ ] Precisará de WebSocket / socket.io ou outro método de sincronização para os jogadores reais.
+- [ ] Cada clique de carta deve ser enviado para o servidor e transmitido aos demais clientes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Responsividade / mobile
+- [ ] Ajustar mesa, avatares, e cartas para telas menores, garantindo que tudo seja clicável e visível. (opcional)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Extras
+- [ ] Contador de tempo da rodada (opcional)
+- [ ] Histórico de estimativas
+- [x] Indicação de média / consenso da estimativa
+- [ ] Se houver divergência alta permitir uma reestimativa (reset da rodada), os divergentes devem concordar em não reestimar através de um botão.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 💡 Resumo visual do fluxo ideal:
+1. Moderador seleciona tarefa → quadro central é atualizado
+2. Jogadores clicam em cartas (suas escolhas ficam privadas)
+3. Status indica quem já escolheu
+4. Moderador libera a revelação → cartas viram simultaneamente
+5. Estimativas e média podem ser mostradas → próxima rodada
