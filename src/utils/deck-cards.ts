@@ -26,8 +26,27 @@ export const cardsScrum = [
   { value: "☕", description: "Cafézinho" },
 ]
 
+export function getAllCards(deck: 'fibonacci' | 'scrum'): { value: string, description: string }[] {
+  return deck === 'fibonacci' ? cardsFibonacci : cardsScrum;
+}
+
 export function getRandomCard(deck: 'fibonacci' | 'scrum'): { value: string, description: string } {
   const deckToUse = deck === 'fibonacci' ? cardsFibonacci : cardsScrum;
   const randomIndex = Math.floor(Math.random() * deckToUse.length);
   return deckToUse[randomIndex];
+}
+
+export function getRandomCardControlled(deck: 'fibonacci' | 'scrum', maxValue: number, minValue: number = 0): { value: string, description: string } {
+  const deckToUse = deck === 'fibonacci' ? cardsFibonacci : cardsScrum;
+  const filteredCards = deckToUse.filter(card => {
+    const cardValue = Number(card.value);
+    return cardValue >= minValue && cardValue <= maxValue;
+  });
+  const randomIndex = Math.floor(Math.random() * filteredCards.length);
+  return filteredCards[randomIndex];
+}
+
+export function getRandomCardValue(deck: 'fibonacci' | 'scrum'): string {
+  const card = getRandomCard(deck);
+  return card.value;
 }

@@ -53,9 +53,16 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
           {/* Tapete interno */}
           <div className="absolute inset-8 rounded-[40px] bg-green-700 shadow-inner"></div>
 
-          <TaskCard title={task.title} description={task.description} />
+          <TaskCard
+            title={task.title}
+            description={task.description}
+          />
 
-          <Player size={size} selectedCard={selectedCard} revealCards={revealCards} />
+          <Player
+            size={size}
+            selectedCard={selectedCard}
+            revealCards={revealCards}
+          />
         </div>
       </div>
     </>
