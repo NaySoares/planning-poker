@@ -3,6 +3,7 @@ import { ISelectedCard } from "@/@types/types";
 import { ContainerCards } from "@/components/container-cards";
 import { GenericModal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
+import { TaskManager } from "@/components/task-manager";
 import { calculateConsensus } from "@/utils/calculate-consensus";
 import { getRandomPlayer } from "@/utils/faker";
 
@@ -111,6 +112,7 @@ export default function Home() {
         revealCards={revealCards}
       />
 
+      <TaskManager />
       <ModalResults />
     </div>
   );
