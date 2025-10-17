@@ -91,7 +91,7 @@ export default function Home() {
           {round ? 'Encerrar rodada' : 'Iniciar rodada'}
         </button>
 
-        <button className="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600 transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed"
+        <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed"
           onClick={handleReveal}
           disabled={!round || selectedCard.value === "?" || revealCards}
         >

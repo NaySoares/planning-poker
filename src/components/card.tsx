@@ -25,7 +25,9 @@ export const Card = ({ cardX, cardY, angle, isTop, cardValue, reveal }: ICard) =
         >
 
           {/* Verso */}
-          <div className="absolute inset-0 rounded-md shadow-md flex items-center justify-center text-white bg-blue-600 text-l [backface-visibility:hidden]">
+          <div className="absolute inset-0 rounded-md shadow-md flex items-center justify-center text-white bg-red-500 text-l [backface-visibility:hidden]
+          [background-image:linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%),linear-gradient(-45deg,rgba(255,255,255,0.15)_25%,transparent_25%),linear-gradient(45deg,transparent_75%,rgba(255,255,255,0.15)_75%),linear-gradient(-45deg,transparent_75%,rgba(255,255,255,0.15)_75%)] [background-size:20px_20px] [background-position:0_0,0_10px,10px_-10px,-10px_0px]
+          ">
             ?
           </div>
 

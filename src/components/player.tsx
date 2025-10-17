@@ -3,6 +3,7 @@ import { ISelectedCard } from "@/@types/types";
 import { getRandomCard } from "@/utils/deck-cards";
 import React, { useEffect } from "react";
 import { Card } from "./card";
+import { EntryAnimationSpinner } from "@/animation/entryAnimation";
 
 interface IPlayer {
   size: { width: number; height: number };
@@ -62,9 +63,11 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
 
         // Indicação: jogador local (id 1) vê sua carta selecionada
         const isLocalPlayer = p.id === 1;
+        const hasVoted = isLocalPlayer && selectedCard.value !== "?";
 
         return (
           <React.Fragment key={p.id}>
+            {/* <EntryAnimationSpinner> */}
             <Card
               cardX={cardX}
               cardY={cardY}
@@ -73,6 +76,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
               cardValue={isLocalPlayer ? selectedCard : simulatedCards[p.id] || { value: "?", description: '' }}
               reveal={revealCards}
             />
+            {/* </EntryAnimationSpinner> */}
 
             {/* Avatar */}
             {isTop ? (
@@ -87,7 +91,9 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                 <span className="text-white text-xs mt-1 whitespace-nowrap">
                   {p.name}
                 </span>
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md bg-gray-900">
+                <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
+                 ${hasVoted ? "border-green-500" : "border-white"}`}
+                >
                   <img
                     src={p.avatar}
                     alt={p.name}
@@ -104,7 +110,9 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                 }}
               >
                 {/* wrapper fixo para garantir a proporção da imagem */}
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-md bg-gray-900">
+                <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
+                 ${hasVoted ? "border-green-500" : "border-white"}`}
+                >
                   <img
                     src={p.avatar}
                     alt={p.name}
