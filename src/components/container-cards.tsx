@@ -16,9 +16,21 @@ export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = fal
 
   const backgroundLines = "[background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_20px)]"
 
+  const containerVisible = () => {
+    if (revealCards) {
+      return 'invisible bottom-[-150px]';
+    }
+
+    if (startRound) {
+      return 'visible';
+    }
+
+    return 'invisible bottom-[-150px]';
+  }
+
   const cardsToUse = fibonacci ? cardsFibonacci : cardsScrum;
   return (
-    <div className={`absolute bottom-0 w-full flex items-center justify-center ${startRound ? 'visible' : 'bottom-[-150px] invisible'} transition-all duration-500`}>
+    <div className={`absolute bottom-0 w-full flex items-center justify-center ${containerVisible()} transition-all duration-500`}>
       <div className={`h-32 rounded-t-lg bg-green-800 flex items-center justify-center space-x-3 px-4 shadow-inner w-fit ${backgroundLines}`}
       >
         {cardsToUse.map((card, index) => (

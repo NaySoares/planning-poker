@@ -11,8 +11,8 @@
 - [x] Pode incluir animação de flip 3D para dar efeito visual.
 
 ## Status da rodada
-- [ ] Indicar quantos jogadores já estimaram.
-- [ ] Mostrar quem ainda não escolheu (opcional).
+- [x] Indicar quantos jogadores já estimaram.
+- [x] Mostrar quem ainda não escolheu (opcional).
 
 ## Interação do moderador / central
 - [ ] Controlar o início e fim da rodada.

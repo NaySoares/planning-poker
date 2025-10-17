@@ -1,6 +1,7 @@
 'use client';
 import { ISelectedCard } from "@/@types/types";
 import { ContainerCards } from "@/components/container-cards";
+import { GenericModal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
 import { calculateConsensus } from "@/utils/calculate-consensus";
 import { getRandomPlayer } from "@/utils/faker";
@@ -14,6 +15,7 @@ export default function Home() {
   });
   const [round, setRound] = useState(false);
   const [revealCards, setRevealCards] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const { average, outliers } = useMemo(
     () => calculateConsensus(getRandomPlayer(10).map(p => ({
@@ -34,6 +36,7 @@ export default function Home() {
   const handleReveal = () => {
     if (!revealCards) {
       setRevealCards(true);
+      setIsOpen(true);
     } else {
       // Nova rodada: reseta tudo
       setSelectedCard({ value: "?", description: '' });
@@ -41,42 +44,43 @@ export default function Home() {
     }
   };
 
-  const BoardResult = () => {
+  const ModalResults = () => {
     return (
-      <>
-        {revealCards && (
-          <div className="absolute top-3 left-2 bg-white shadow-lg rounded-xl px-6 py-4 text-center">
-            <p className="font-bold text-lg">
-              Média das estimativas:{" "}
-              <span className="text-blue-600">
-                {average.toFixed(1)}
-              </span>
-            </p>
+      <GenericModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={() => setIsOpen(false)}
+      >
+        <div>
+          <p className="font-bold text-lg text-black">
+            Média das estimativas:{" "}
+            <span className="text-blue-600">
+              {average.toFixed(1)}
+            </span>
+          </p>
 
-            {outliers.length > 0 && (
-              <div className="mt-2 text-sm text-red-500">
-                <p className="font-semibold">Votos fora da média:</p>
-                {outliers.map((p) => (
-                  <div key={p.id}>
-                    {p.name}: {p.vote}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </>
+          {outliers.length > 0 && (
+            <div className="mt-2 text-sm text-red-500">
+              <p className="font-semibold">Votos fora da média:</p>
+              {outliers.map((p) => (
+                <div key={p.id}>
+                  {p.name}: {p.vote}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+
+      </GenericModal>
     )
   }
-
 
   return (
     <div className="relative w-full h-screen bg-green-900 flex flex-col overflow-hidden">
       <div className="flex-1 relative flex items-center justify-center">
         <PokerTable selectedCard={selectedCard} revealCards={revealCards} />
       </div>
-
-      <BoardResult />
 
       <div className="absolute top-4 right-4 flex flex-col items-center justify-center gap-2 p-4">
         <button className=" bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer"
@@ -107,7 +111,7 @@ export default function Home() {
         revealCards={revealCards}
       />
 
-
+      <ModalResults />
     </div>
   );
 }
