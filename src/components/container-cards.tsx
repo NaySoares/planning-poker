@@ -25,7 +25,9 @@ export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = fal
           <React.Fragment
             key={index + 1}
           >
-            <Tooltip text={getMessageCardByValue(fibonacci ? 'fibonacci' : 'scrum', card.value)}>
+            <Tooltip
+              text={getMessageCardByValue(fibonacci ? 'fibonacci' : 'scrum', card.value)}
+              visible={!revealCards}>
               <div
                 onClick={() => handleSelectCard(card)}
                 className={`w-16 h-24 bg-white text-gray-400 rounded-lg shadow-lg flex items-center justify-center text-2xl font-bold cursor-pointer select-none transition-transform duration-200

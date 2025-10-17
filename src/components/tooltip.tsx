@@ -1,14 +1,16 @@
 import { ReactNode, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-interface TooltipProps {
+interface ITooltip {
   text: string;
   children: ReactNode;
   visible?: boolean;
 }
 
-export const Tooltip = ({ text, children }: TooltipProps) => {
+export const Tooltip = ({ text, children, visible = true }: ITooltip) => {
   const [hovered, setHovered] = useState(false);
+
+  if (!visible) return <>{children}</>;
 
   return (
     <div
