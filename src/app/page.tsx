@@ -1,6 +1,5 @@
 'use client';
 import { ISelectedCard } from "@/@types/types";
-import CoinFlip from "@/components/coin";
 import { ContainerCards } from "@/components/container-cards";
 import { PokerTable } from "@/components/poker-table";
 import { useState } from "react";
