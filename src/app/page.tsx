@@ -1,7 +1,7 @@
 'use client';
 import { ISelectedCard } from "@/@types/types";
 import { ContainerCards } from "@/components/container-cards";
-import { GenericModal } from "@/components/modal";
+import { Modal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
 import { TaskManager } from "@/components/task-manager";
 import { calculateConsensus } from "@/utils/calculate-consensus";
@@ -47,7 +47,7 @@ export default function Home() {
 
   const ModalResults = () => {
     return (
-      <GenericModal
+      <Modal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onConfirm={() => setIsOpen(false)}
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
           )}
         </div>
-      </GenericModal>
+      </Modal>
     )
   }
 
@@ -91,15 +91,17 @@ export default function Home() {
             setRound(!round)
           }}
         >
-          {round ? 'Encerrar rodada' : 'Iniciar rodada'}
+          {round ? 'Próxima rodada' : 'Iniciar rodada'}
         </button>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed"
-          onClick={handleReveal}
-          disabled={!round || selectedCard.value === "?" || revealCards}
-        >
-          {revealCards ? 'Nova rodada' : 'Revelar cartas'}
-        </button>
+        {round && (
+          <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed"
+            onClick={handleReveal}
+            disabled={!round || selectedCard.value === "?" || revealCards}
+          >
+            {"Revelar cartas"}
+          </button>
+        )}
       </div>
 
       <ContainerCards

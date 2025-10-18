@@ -8,7 +8,7 @@ interface GenericModalProps {
   onConfirm: () => void;
 }
 
-export const GenericModal = ({ isOpen, onClose, children, className, onConfirm }: GenericModalProps) => {
+export const Modal = ({ isOpen, onClose, children, className, onConfirm }: GenericModalProps) => {
   if (!isOpen) return null;
 
   const FooterModal = ({ onClose, onConfirm }: { onClose: () => void; onConfirm: () => void }) => {
