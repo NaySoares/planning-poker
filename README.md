@@ -18,7 +18,7 @@
 - [ ] Controlar o início e fim da rodada.
 - [ ] Permitir reiniciar para a próxima tarefa.
 - [ ] Atualizar o quadro central para nova tarefa.
-- [ ] Cadastrar várias tarefas antes e durante as rodadas
+- [x] Cadastrar várias tarefas antes e durante as rodadas
 
 ## Feedback visual
 - [x] Cartas clicadas podem ter destaque visual para o jogador.

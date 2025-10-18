@@ -26,7 +26,7 @@ export const TaskManager = () => {
       title: title.trim(),
       description: description.trim() || undefined,
     };
-    setTasks([newTask, ...tasks]); // adiciona no topo
+    setTasks([newTask, ...tasks]);
     setTitle("");
     setDescription("");
   };
@@ -101,7 +101,7 @@ export const TaskManager = () => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
                 {error &&
-                  <p className="text-red-500 text-[10px] "> é preciso preencher o título</p>
+                  <p className="text-red-500 text-[10px] ">é preciso preencher o título</p>
                 }
               </div>
               <div className="flex flex-col gap-1">
