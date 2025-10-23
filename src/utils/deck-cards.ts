@@ -26,6 +26,39 @@ export const cardsScrum = [
   { value: "☕", description: "Cafézinho" },
 ]
 
+export const getSourceImageByCardValue = (deck: 'fibonacci' | 'scrum', value: string | number) => {
+  const fibonacciImages = {
+    1: "/cards/image-card-hand.png",
+    2: "/cards/image-card-sweet.png",
+    3: "/cards/image-card-seven-head.png",
+    5: "/cards/image-card-beast.png",
+    8: "/cards/image-card-face.png",
+    13: "/cards/image-card-no-luck.png",
+    21: "/cards/image-card-pineapple.png",
+    34: "/cards/image-card-faith.png",
+    55: "/cards/image-card-senior.png",
+    89: "/cards/image-card-wrong.png",
+    144: "/cards/image-card-witcher.png",
+    "☕": "/cards/image-card-coffee.png",
+  };
+
+  const scrumImages = {
+    1: "/cards/image-card-hand.png",
+    2: "/cards/image-card-sweet.png",
+    3: "/cards/image-card-seven-head.png",
+    5: "/cards/image-card-beast.png",
+    8: "/cards/image-card-face.png",
+    13: "/cards/image-card-no-luck.png",
+    20: "/cards/image-card-pineapple.png",
+    40: "/cards/image-card-faith.png",
+    100: "/cards/image-card-senior.png",
+    "☕": "/cards/image-card-coffee.png",
+  };
+
+  const images = deck === 'fibonacci' ? fibonacciImages : scrumImages;
+  return images[value as keyof typeof images] || "";
+}
+
 export function getAllCards(deck: 'fibonacci' | 'scrum'): { value: string, description: string }[] {
   return deck === 'fibonacci' ? cardsFibonacci : cardsScrum;
 }

@@ -77,7 +77,7 @@ export default function Home() {
 
   return (
     <div className="relative w-full h-screen bg-green-900 flex flex-col overflow-hidden">
-      <div className="flex-1 relative flex items-center justify-center">
+      <div className="flex-1 relative flex items-center justify-center bg-red-300">
         <PokerTable selectedCard={selectedCard} revealCards={revealCards} />
       </div>
 

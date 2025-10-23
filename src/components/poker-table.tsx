@@ -44,7 +44,8 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
         )}
         <div
           ref={tableRef}
-          className="relative flex items-center justify-center rounded-[60px] border-8 border-[#814b27] shadow-2xl transition-all duration-300"
+          // TODO: ajustar esse bottom-24
+          className="relative flex items-center justify-center rounded-[60px] border-8 border-[#814b27] shadow-2xl transition-all duration-300 bottom-24"
           style={{
             width: `${size.width}px`,
             height: `${size.height}px`,
