@@ -56,7 +56,7 @@ export const getSourceImageByCardValue = (deck: 'fibonacci' | 'scrum', value: st
   };
 
   const images = deck === 'fibonacci' ? fibonacciImages : scrumImages;
-  return images[value as keyof typeof images] || "";
+  return images[value as keyof typeof images] || "/cards/image-card-coffee.png";
 }
 
 export function getAllCards(deck: 'fibonacci' | 'scrum'): { value: string, description: string }[] {

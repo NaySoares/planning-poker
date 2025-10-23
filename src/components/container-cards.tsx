@@ -12,7 +12,7 @@ interface IContainerCards {
   revealCards: boolean;
 }
 
-export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = false, startRound, revealCards }: IContainerCards) {
+export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = true, startRound, revealCards }: IContainerCards) {
 
   const backgroundLines = "[background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_20px)]"
 

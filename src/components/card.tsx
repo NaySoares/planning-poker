@@ -1,15 +1,21 @@
 import { ISelectedCard } from "@/@types/types";
+import { getSourceImageByCardValue } from "@/utils/deck-cards";
 
 interface ICard {
   cardX: number;
   cardY: number;
   angle: number;
   isTop: boolean;
-  cardValue: ISelectedCard;
+  card: ISelectedCard;
   reveal: boolean;
+  fibonacci?: boolean;
 }
 
-export const Card = ({ cardX, cardY, angle, isTop, cardValue, reveal }: ICard) => {
+export const Card = ({ cardX, cardY, angle, isTop, card, reveal, fibonacci = true }: ICard) => {
+  const textStyle = {
+    textShadow: '-1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white'
+  }
+
   return (
     <div
       className={`absolute`}
@@ -32,11 +38,22 @@ export const Card = ({ cardX, cardY, angle, isTop, cardValue, reveal }: ICard) =
           </div>
 
           {/* Frente */}
-          <div className="absolute inset-0 bg-white rounded-md shadow-md text-black font-bold flex items-center justify-center flex-col text-sm [transform:rotateY(180deg)] [backface-visibility:hidden]">
-            {cardValue.value}
-            {cardValue.description && (
-              <span className="text-[8px] text-center font-normal mt-0.5">{cardValue.description}</span>
-            )}
+          <div className="absolute inset-0 rounded-xs shadow-md text-black font-bold flex items-center justify-center flex-col text-sm [transform:rotateY(180deg)] [backface-visibility:hidden]">
+            <img
+              src={getSourceImageByCardValue(fibonacci ? 'fibonacci' : 'scrum', card.value)}
+              alt={card.description}
+              className="absolute w-full h-full object-cover rounded-lg"
+            />
+            <div
+              className="relative z-10 w-full h-full text-black font-bold"
+            >
+              <div className="absolute top-0 left-0" style={textStyle}>
+                {card.value}
+              </div>
+              <div className="absolute bottom-0 right-0 rotate-180" style={{ ...textStyle }}>
+                {card.value}
+              </div>
+            </div>
           </div>
         </div>
       </div>

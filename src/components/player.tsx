@@ -109,16 +109,14 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
 
         return (
           <React.Fragment key={p.id}>
-            {/* <EntryAnimationSpinner> */}
             <Card
               cardX={cardX}
               cardY={cardY}
               angle={angle}
               isTop={isTop}
-              cardValue={isLocalPlayer ? selectedCard : simulatedCards[p.id] || { value: "?", description: '' }}
+              card={isLocalPlayer ? selectedCard : simulatedCards[p.id] || { value: "?", description: '' }}
               reveal={revealCards}
             />
-            {/* </EntryAnimationSpinner> */}
 
             {/* Avatar */}
             {isTop ? (
