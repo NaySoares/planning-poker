@@ -42,7 +42,7 @@ export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = fal
           <div
             onClick={() => handleSelectCard(originalCard)}
             className={`relative w-24 h-36 bg-white text-gray-400 rounded-lg shadow-lg flex items-center justify-center text-2xl font-bold cursor-pointer select-none transition-transform duration-200
-                ${isSelected ? "scale-110 ring-4 ring-red-500" : ""}
+                ${isSelected ? "scale-110 ring-4 ring-teal-600" : ""}
                 ${disabled ? "pointer-events-none opacity-50" : "hover:scale-105"}
                 `}
           >
@@ -72,7 +72,7 @@ export function ContainerCards({ selectedCard, handleSelectCard, fibonacci = fal
 
   return (
     <div className={`absolute bottom-0 w-full flex transition-all duration-500 overflow-x-auto ${containerVisible()}`}>
-      <div className={`h-fit min-w-max rounded-t-lg bg-green-800 flex justify-center items-center space-x-3 p-4 shadow-inner overflow-x-auto mx-auto ${backgroundLines}`}
+      <div className={`h-fit min-w-max rounded-t-lg bg-gray-900 flex justify-center items-center space-x-3 p-4 shadow-inner overflow-x-auto mx-auto ${backgroundLines}`}
       >
         {cardsToUse.map((card, index) => (
           <React.Fragment

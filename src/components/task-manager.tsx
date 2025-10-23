@@ -38,7 +38,7 @@ export const TaskManager = () => {
   const ButtonShowBox = () => {
     return (
       <button
-        className="fixed bottom-4 left-4 bg-blue-600 text-white text-sm px-2 py-2 rounded shadow hover:bg-blue-700 transition z-50 cursor-pointer"
+        className="fixed bottom-4 left-4 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm px-2 py-2 rounded shadow transition duration-300 z-50 cursor-pointer"
         onClick={() => setHiddenBox(!hiddenBox)}
       >
         {hiddenBox ? "Mostrar Tarefas" : "Esconder Tarefas"}
@@ -85,7 +85,7 @@ export const TaskManager = () => {
               <div className="flex flex-row justify-between items-center">
                 <p className="text-xs font-bold text-black text-center">Cadastre sua tarefa</p>
                 <p
-                  className="text-gray-600 hover:text-blue-600 hover:scale-105 transition-all duration-300 text-xs font-normal cursor-pointer"
+                  className="text-gray-600 hover:text-teal-600 hover:scale-105 hover:font-bold transition-all duration-300 text-xs font-normal cursor-pointer"
                   onClick={() => setHiddenBox(true)}
                 >
                   Esconder
@@ -114,7 +114,7 @@ export const TaskManager = () => {
                 />
               </div>
               <button
-                className="cursor-pointer bg-blue-600 text-white text-sm py-1 rounded hover:bg-blue-700 transition"
+                className="cursor-pointer duration-300 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm py-1 rounded transition"
                 onClick={addTask}
               >
                 Cadastrar

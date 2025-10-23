@@ -3,12 +3,19 @@ import { ISelectedCard } from "@/@types/types";
 import { getRandomCard } from "@/utils/deck-cards";
 import React, { useEffect } from "react";
 import { Card } from "./card";
-import { EntryAnimationSpinner } from "@/animation/entryAnimation";
+import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
+import { Crown, UserX } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Button } from "./ui/button";
 
 interface IPlayer {
   size: { width: number; height: number };
   selectedCard: ISelectedCard
   revealCards: boolean;
+}
+
+interface IPopverControll {
+  children: React.ReactNode;
 }
 
 export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
@@ -39,6 +46,41 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
       setSimulatedCards({});
     }
   }, [revealCards]);
+
+  const IPopoverControll = ({ children }: IPopverControll) => {
+    return (
+      <Popover>
+        <PopoverTrigger asChild className="cursor-pointer">
+          {children}
+        </PopoverTrigger>
+        <PopoverContent className="bg-black/50 w-fit p-4 flex gap-2">
+          <Tooltip>
+            <TooltipTrigger>
+
+              <Button variant="outline" size="icon"
+                className="cursor-pointer hover:bg-teal-500 transition hover:text-white"
+              >
+                <Crown />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Tornar mestre</TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="outline" size="icon"
+                className="cursor-pointer transition hover:bg-red-600 hover:text-white"
+              >
+                <UserX />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Expulsar</TooltipContent>
+          </Tooltip>
+        </PopoverContent>
+      </Popover>
+
+    )
+  }
 
   return (
     <>
@@ -80,49 +122,54 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
 
             {/* Avatar */}
             {isTop ? (
-              <div
-                className="absolute flex flex-col items-center transition-all duration-300"
-                style={{
-                  left: `${avatarX}px`,
-                  top: `${avatarY}px`,
-                }}
-              >
-                {/* wrapper fixo para garantir a proporção da imagem */}
-                <span className="text-white text-xs mt-1 whitespace-nowrap">
-                  {p.name}
-                </span>
-                <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
-                 ${hasVoted ? "border-green-500" : "border-white"}`}
+              <IPopoverControll>
+
+                <div
+                  className="absolute flex flex-col items-center transition-all duration-300"
+                  style={{
+                    left: `${avatarX}px`,
+                    top: `${avatarY}px`,
+                  }}
                 >
-                  <img
-                    src={p.avatar}
-                    alt={p.name}
-                    className="w-full h-full object-cover"
-                  />
+                  {/* wrapper fixo para garantir a proporção da imagem */}
+                  <span className="text-white text-xs mt-1 whitespace-nowrap">
+                    {p.name} {isLocalPlayer && "👑"}
+                  </span>
+                  <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
+                 ${hasVoted ? "border-green-500" : "border-white"}`}
+                  >
+                    <img
+                      src={p.avatar}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
+              </IPopoverControll>
             ) : (
-              <div
-                className="absolute flex flex-col items-center transition-all duration-300"
-                style={{
-                  left: `${avatarX}px`,
-                  top: `${avatarY}px`,
-                }}
-              >
-                {/* wrapper fixo para garantir a proporção da imagem */}
-                <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
-                 ${hasVoted ? "border-green-500" : "border-white"}`}
+              <IPopoverControll>
+                <div
+                  className="absolute flex flex-col items-center transition-all duration-300"
+                  style={{
+                    left: `${avatarX}px`,
+                    top: `${avatarY}px`,
+                  }}
                 >
-                  <img
-                    src={p.avatar}
-                    alt={p.name}
-                    className="w-full h-full object-cover"
-                  />
+                  {/* wrapper fixo para garantir a proporção da imagem */}
+                  <div className={`w-12 h-12 rounded-full overflow-hidden border-2 shadow-md bg-gray-900
+                 ${hasVoted ? "border-green-500" : "border-white"}`}
+                  >
+                    <img
+                      src={p.avatar}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <span className="text-white text-xs mt-1 whitespace-nowrap">
+                    {p.name}
+                  </span>
                 </div>
-                <span className="text-white text-xs mt-1 whitespace-nowrap">
-                  {p.name}
-                </span>
-              </div>
+              </IPopoverControll>
             )}
           </React.Fragment>
         );

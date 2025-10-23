@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       <div className="absolute top-4 right-4 flex flex-col items-center justify-center gap-2 p-4">
-        <button className=" bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer"
+        <button className=" duration-300 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm px-4 py-2 rounded shadow transition cursor-pointer"
           onClick={() => {
             if (round) {
               setSelectedCard({ value: "?", description: '' })
@@ -95,7 +95,7 @@ export default function Home() {
         </button>
 
         {round && (
-          <button className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed"
+          <button className="duration-300 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm px-4 py-2 rounded shadow transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed disabled:hover:text-black"
             onClick={handleReveal}
             disabled={!round || selectedCard.value === "?" || revealCards}
           >
