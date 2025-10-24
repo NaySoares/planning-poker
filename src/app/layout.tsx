@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Planning Poker",
-  description: "Simple planning poker app to help your team estimate tasks.",
+  description: "Planning Poker simples e divertido para equipes ágeis.",
 };
 
 export default function RootLayout({
