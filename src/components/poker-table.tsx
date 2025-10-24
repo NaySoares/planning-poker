@@ -35,13 +35,21 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  const imageBackground = "/background.jpg";
+  const backgroundStyle = {
+    backgroundImage: `url(${imageBackground})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundBlendMode: 'overlay',
+  };
+
   return (
     <>
-      <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-gray-800 via-gray-900 to-gray-800">
+      <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-gray-800 via-gray-900 to-gray-800"
+        style={backgroundStyle}
+      >
         {/* Mesa */}
-        {revealCards && (
-          <div className="absolute inset-0 rounded-[60px] bg-white/10 animate-pulse pointer-events-none"></div>
-        )}
         <div
           ref={tableRef}
           // TODO: ajustar esse bottom-24
