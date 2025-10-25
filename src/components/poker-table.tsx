@@ -70,11 +70,13 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
             description={task.description}
           />
 
+
           <Player
             size={size}
             selectedCard={selectedCard}
             revealCards={revealCards}
           />
+
         </div>
       </div>
     </>

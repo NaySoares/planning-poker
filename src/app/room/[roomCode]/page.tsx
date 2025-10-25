@@ -4,12 +4,17 @@ import { ContainerCards } from "@/components/container-cards";
 import { Modal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
 import { TaskManager } from "@/components/task-manager";
+import { useSocketContext } from "@/context/SocketProvider";
+import { usePlayer } from "@/store/use-player";
+import { usePlayers } from "@/store/use-players";
 import { calculateConsensus } from "@/utils/calculate-consensus";
 import { getRandomPlayer } from "@/utils/faker";
+import { useParams } from "next/navigation";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function RoomPage() {
+  const [tasks, setTasks] = useState<string[]>([])
   const [selectedCard, setSelectedCard] = useState<ISelectedCard>({
     value: "?",
     description: '',
@@ -17,6 +22,38 @@ export default function RoomPage() {
   const [round, setRound] = useState(false);
   const [revealCards, setRevealCards] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const { roomCode } = useParams<{ roomCode: string }>();
+  const { name, avatar } = usePlayer();
+  const { setPlayers } = usePlayers();
+  const socket = useSocketContext()
+
+  useEffect(() => {
+
+    if (!roomCode) return
+
+    const playerId = localStorage.getItem('playerId');
+    socket.emit("join_room", {
+      roomCode,
+      playerId,
+      name,
+      avatar,
+    })
+
+    socket.on("room:update", (data) => {
+      if (data.players) {
+        setPlayers(data.players)
+      }
+
+      if (data.tasks) {
+        setTasks(data.tasks)
+      }
+    })
+
+    return () => {
+      socket.off("room:update")
+    }
+  }, [socket, roomCode, avatar, setPlayers]);
 
   const { average, outliers } = useMemo(
     () => calculateConsensus(getRandomPlayer(10).map(p => ({

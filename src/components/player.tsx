@@ -7,6 +7,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "./ui/popover";
 import { Crown, UserX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { Button } from "./ui/button";
+import { usePlayers } from "@/store/use-players";
 
 interface IPlayer {
   size: { width: number; height: number };
@@ -19,14 +20,16 @@ interface IPopverControll {
 }
 
 export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
+  const { players } = usePlayers();
+
   const [simulatedCards, setSimulatedCards] = React.useState<{ [key: number]: ISelectedCard }>({});
 
-  const players = Array.from({ length: 10 }, (_, i) => ({
-    id: i + 1,
-    name: `Player ${i + 1}`,
-    avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=${i + 1}`,
-    cardValue: { value: "?", description: '' },
-  }));
+  // const players = Array.from({ length: 10 }, (_, i) => ({
+  //   id: i + 1,
+  //   name: `Player ${i + 1}`,
+  //   avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=${i + 1}`,
+  //   cardValue: { value: "?", description: '' },
+  // }));
 
   const rx = size.width * 0.55;
   const ry = size.height * 0.55;
@@ -36,9 +39,9 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
     if (revealCards) {
       const randomCards: { [key: number]: ISelectedCard } = {};
       // Simula que cada jogador recebeu uma carta aleatória ao revelar
-      players.forEach((p) => {
-        if (p.id !== 1) {
-          randomCards[p.id] = getRandomCard("fibonacci");
+      players.forEach((p, i) => {
+        if (p.isMaster) {
+          randomCards[i] = getRandomCard("fibonacci");
         }
       });
       setSimulatedCards(randomCards);
@@ -104,7 +107,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
         const isTop = Math.sin(angle) < 0;
 
         // Indicação: jogador local (id 1) vê sua carta selecionada
-        const isLocalPlayer = p.id === 1;
+        const isLocalPlayer = p.isMaster;
         const hasVoted = isLocalPlayer && selectedCard.value !== "?";
 
         return (
@@ -114,7 +117,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
               cardY={cardY}
               angle={angle}
               isTop={isTop}
-              card={isLocalPlayer ? selectedCard : simulatedCards[p.id] || { value: "?", description: '' }}
+              card={isLocalPlayer ? selectedCard : simulatedCards[i] || { value: "?", description: '' }}
               reveal={revealCards}
             />
 

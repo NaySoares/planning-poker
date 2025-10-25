@@ -7,11 +7,10 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { useSocketContext } from "@/context/SocketProvider";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Home() {
   const [isNewRoom, setIsNewRoom] = useState(false);
-  const [roomCode, setRoomCode] = useState("");
-  const [name, setName] = useState("");
 
   const socket = useSocketContext();
 
@@ -24,7 +23,7 @@ export default function Home() {
     };
 
     const handleError = (msg: string) => {
-      alert(msg);
+      toast.error(msg);
     };
 
     socket.on("room:update", handleRoomUpdate);
@@ -36,15 +35,7 @@ export default function Home() {
     };
   }, [socket]);
 
-  const handleJoin = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    socket.emit("join_room", {
-      roomCode,
-      name,
-      avatar: "https://api.dicebear.com/7.x/thumbs/svg?seed=1",
-    });
-  };
 
   const imageBackground = "/backgroundHome.jpg";
 
@@ -58,7 +49,10 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center gap-6">
           <h3 className="text-4xl font-bold text-white">Comece a jogar</h3>
           {isNewRoom ?
-            <BoxRegister isNewRoom={isNewRoom} setIsNewRoom={setIsNewRoom} />
+            <BoxRegister
+              isNewRoom={isNewRoom}
+              setIsNewRoom={setIsNewRoom}
+            />
             :
             <BoxNewRoom isNewRoom={isNewRoom} setIsNewRoom={setIsNewRoom} />
           }
@@ -69,13 +63,7 @@ export default function Home() {
             <h3 className="text-4xl font-bold text-white">Convidados</h3>
             <h4 className="text-xl text-gray-300">Entre em uma sala</h4>
           </div>
-          <BoxJoinRoom
-            name={name}
-            setName={setName}
-            roomCode={roomCode}
-            setRoomCode={setRoomCode}
-            handleJoin={handleJoin}
-          />
+          <BoxJoinRoom />
         </div>
       </div>
       <Footer />
