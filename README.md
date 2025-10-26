@@ -1,6 +1,6 @@
 # Planning Poker Scrum
 
-![screenshot](https://raw.githubusercontent.com/NaySoares/planning-poker/github/planningPokerScreen.png)
+![screenshot](https://raw.githubusercontent.com/NaySoares/planning-poker/refs/heads/main/github/planningPokerScreen.png)
 
 ## Cartas/estimativas dos jogadores
 
