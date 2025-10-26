@@ -8,6 +8,11 @@ import { Crown, UserX } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { Button } from "./ui/button";
 import { usePlayers } from "@/store/use-players";
+import { cn } from "@/lib/utils";
+import { useSocketContext } from "@/context/SocketProvider";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import { usePlayer } from "@/store/use-player";
 
 interface IPlayer {
   size: { width: number; height: number };
@@ -17,19 +22,18 @@ interface IPlayer {
 
 interface IPopverControll {
   children: React.ReactNode;
+  isOnline: boolean;
+  playerId: string;
 }
 
 export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
   const { players } = usePlayers();
+  const { isMaster } = usePlayer();
+
+  const socket = useSocketContext();
+  const { roomCode } = useParams<{ roomCode: string }>();
 
   const [simulatedCards, setSimulatedCards] = React.useState<{ [key: number]: ISelectedCard }>({});
-
-  // const players = Array.from({ length: 10 }, (_, i) => ({
-  //   id: i + 1,
-  //   name: `Player ${i + 1}`,
-  //   avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=${i + 1}`,
-  //   cardValue: { value: "?", description: '' },
-  // }));
 
   const rx = size.width * 0.55;
   const ry = size.height * 0.55;
@@ -50,7 +54,20 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
     }
   }, [revealCards]);
 
-  const IPopoverControll = ({ children }: IPopverControll) => {
+  const handleKickPlayer = (playerId: string) => {
+    const myPlayerId = localStorage.getItem('playerId');
+    if (playerId === myPlayerId) {
+      toast.error("Você não pode expulsar a si mesmo. Primeiro torne outro jogador mestre da sala.");
+      return;
+    }
+
+    socket.emit("player:kick", {
+      roomCode,
+      playerId,
+    })
+  }
+
+  const IPopoverControll = ({ children, isOnline, playerId }: IPopverControll) => {
     return (
       <Popover>
         <PopoverTrigger asChild className="cursor-pointer">
@@ -58,20 +75,27 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
         </PopoverTrigger>
         <PopoverContent className="bg-black/50 w-fit p-4 flex gap-2">
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
 
-              <Button variant="outline" size="icon"
+              <Button
+                variant="outline"
+                size="icon"
+                disabled={!isOnline || !isMaster}
                 className="cursor-pointer hover:bg-teal-500 transition hover:text-white"
               >
                 <Crown />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Tornar mestre</TooltipContent>
+            <TooltipContent>{isOnline ? "Tornar mestre" : "Um jogador offline não pode ser mestre"}</TooltipContent>
           </Tooltip>
 
           <Tooltip>
-            <TooltipTrigger>
-              <Button variant="outline" size="icon"
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => handleKickPlayer(playerId)}
+                disabled={!isMaster}
                 className="cursor-pointer transition hover:bg-red-600 hover:text-white"
               >
                 <UserX />
@@ -123,10 +147,9 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
 
             {/* Avatar */}
             {isTop ? (
-              <IPopoverControll>
-
+              <IPopoverControll isOnline={p.isOnline} playerId={p.id}>
                 <div
-                  className="absolute flex flex-col items-center transition-all duration-300"
+                  className={cn("absolute flex flex-col items-center transition-all duration-300", p.isOnline ? "" : "opacity-50")}
                   style={{
                     left: `${avatarX}px`,
                     top: `${avatarY}px`,
@@ -140,7 +163,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                  ${hasVoted ? "border-green-500" : "border-white"}`}
                   >
                     <img
-                      src={p.avatar}
+                      src={p.avatar ?? ''}
                       alt={p.name}
                       className="w-full h-full object-cover"
                     />
@@ -148,9 +171,9 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                 </div>
               </IPopoverControll>
             ) : (
-              <IPopoverControll>
+              <IPopoverControll isOnline={p.isOnline} playerId={p.id}>
                 <div
-                  className="absolute flex flex-col items-center transition-all duration-300"
+                  className={cn("absolute flex flex-col items-center transition-all duration-300", p.isOnline ? "" : "opacity-50")}
                   style={{
                     left: `${avatarX}px`,
                     top: `${avatarY}px`,
@@ -161,7 +184,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                  ${hasVoted ? "border-green-500" : "border-white"}`}
                   >
                     <img
-                      src={p.avatar}
+                      src={p.avatar ?? ''}
                       alt={p.name}
                       className="w-full h-full object-cover"
                     />

@@ -29,7 +29,7 @@ export const BoxNewRoom = ({ isNewRoom, setIsNewRoom }: BoxNewRoom) => {
         toast.success("Sala criada com sucesso!");
 
         localStorage.setItem('playerId', result.playerId);
-        setPlayerInfo("", result.user.name, "");
+        setPlayerInfo("", result.user.name, true);
 
         setEmail("");
         setPassword("");

@@ -7,14 +7,15 @@ import { TaskManager } from "@/components/task-manager";
 import { useSocketContext } from "@/context/SocketProvider";
 import { usePlayer } from "@/store/use-player";
 import { usePlayers } from "@/store/use-players";
+import { useTasks } from "@/store/use-tasks";
 import { calculateConsensus } from "@/utils/calculate-consensus";
 import { getRandomPlayer } from "@/utils/faker";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 export default function RoomPage() {
-  const [tasks, setTasks] = useState<string[]>([])
   const [selectedCard, setSelectedCard] = useState<ISelectedCard>({
     value: "?",
     description: '',
@@ -26,7 +27,9 @@ export default function RoomPage() {
   const { roomCode } = useParams<{ roomCode: string }>();
   const { name, avatar } = usePlayer();
   const { setPlayers } = usePlayers();
+  const { setTasks } = useTasks();
   const socket = useSocketContext()
+  const router = useRouter();
 
   useEffect(() => {
 
@@ -40,8 +43,13 @@ export default function RoomPage() {
       avatar,
     })
 
+    socket.on("notification", (msg: string) => {
+      toast(msg);
+    })
+
     socket.on("room:update", (data) => {
       if (data.players) {
+        verifyKicked(data.players)
         setPlayers(data.players)
       }
 
@@ -50,10 +58,39 @@ export default function RoomPage() {
       }
     })
 
+    socket.on("error", handleError);
+
     return () => {
       socket.off("room:update")
+      socket.off("error")
+      socket.off("notification")
     }
-  }, [socket, roomCode, avatar, setPlayers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket, roomCode]);
+
+  const handleError = (msg: string) => {
+    if (msg === 'Sala não encontrada') {
+      router.push('/');
+    }
+
+    toast.error(msg);
+  };
+
+  const verifyKicked = (players: Array<{ id: string }>) => {
+    const playerId = localStorage.getItem('playerId');
+    const isPlayerInRoom = players.some(p => p.id === playerId);
+
+    if (!isPlayerInRoom) {
+      localStorage.removeItem('playerId');
+      socket.disconnect();
+
+      toast.warning("Você foi expulso da sala!");
+      setTimeout(() => {
+        router.push('/');
+      }, 2000);
+    }
+
+  };
 
   const { average, outliers } = useMemo(
     () => calculateConsensus(getRandomPlayer(10).map(p => ({

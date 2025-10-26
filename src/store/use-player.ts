@@ -4,24 +4,24 @@ import { create } from "zustand";
 export const usePlayer = create<{
   id: string;
   name: string;
-  masterId?: string;
+  isMaster: boolean;
   avatar: string;
   cardValue: string;
-  setPlayerInfo: (id: string, name: string, masterId: string) => void;
+  setPlayerInfo: (id: string, name: string, isMaster: boolean) => void;
   setCardValue: (cardValue: string) => void;
 }>((set) => ({
 
   id: "",
   name: "",
-  masterId: "",
+  isMaster: false,
   avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=2`,
   cardValue: "",
 
-  setPlayerInfo: (id, name, masterId) =>
+  setPlayerInfo: (id, name, isMaster) =>
     set(() => ({
       id,
       name,
-      masterId,
+      isMaster,
     })),
 
   setCardValue: (cardValue) =>

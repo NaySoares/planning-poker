@@ -17,6 +17,7 @@ export default function Home() {
   useEffect(() => {
     if (!socket) return;
 
+    // TODO: remover esses sockets(?)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleRoomUpdate = (data: any) => {
       console.log("📡 Atualização da sala:", data);
@@ -34,8 +35,6 @@ export default function Home() {
       socket.off("error", handleError);
     };
   }, [socket]);
-
-
 
   const imageBackground = "/backgroundHome.jpg";
 

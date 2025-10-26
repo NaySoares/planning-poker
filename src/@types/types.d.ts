@@ -44,39 +44,37 @@ export interface IResponseCreateRoom {
 }
 
 export interface IPlayer {
-  id: string
-  name: string
-  avatar: string
-  isMaster: boolean
-  socketId: string
-  isReady?: boolean
+  name: string;
+  id: string;
+  avatar: string | null;
+  roomId: string;
+  socketId: string | null;
+  currentVote: number | null;
+  isOnline: boolean;
+  isMaster: boolean;
 }
 
+export interface ITask {
+  id: string;
+  createdAt: Date;
+  roomId: string;
+  description: string | null;
+  title: string;
+  completed: boolean;
+  updatedAt: Date;
+}
+
+type RoomStatus = "WAITING" | "IN_PROGRESS" | "FINISHED";
+
 export type RoomWithRelations = {
-  players: {
-    name: string;
-    id: string;
-    avatar: string | null;
-    roomId: string;
-    socketId: string | null;
-    currentVote: number | null;
-    isMaster: boolean;
-  }[];
-  tasks: {
-    id: string;
-    createdAt: Date;
-    roomId: string;
-    description: string | null;
-    title: string;
-    completed: boolean;
-    updatedAt: Date;
-  }[];
+  players: IPlayer[];
+  tasks: ITask[];
 } & {
   id: string;
   code: string;
   masterId: string;
   currentTask: string | null;
-  status: $Enums.RoomStatus;
+  status: RoomStatus;
   createdAt: Date;
 } & {
   playerId: string;

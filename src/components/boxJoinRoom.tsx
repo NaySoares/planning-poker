@@ -34,7 +34,7 @@ export const BoxJoinRoom = () => {
         setRoomCode("");
 
         localStorage.setItem('playerId', result.playerId);
-        setPlayerInfo("", name, "");
+        setPlayerInfo("", name, false);
         router.push(`/room/${roomCode}`);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
