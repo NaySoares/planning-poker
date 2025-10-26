@@ -1,22 +1,59 @@
+import { AlertDialog, AlertDialogAction, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger, AlertDialogTitle } from "./ui/alert-dialog";
+import { aboutText, contactText } from "@/utils/messages";
+interface IDialog {
+  trigger: React.ReactNode;
+  title: string;
+  text: string;
+}
+
 export const Header = () => {
-  const NavItem = ({ title, onClick }: { title: string; onClick: () => void }) => {
+  const NavItem = ({ title }: { title: string }) => {
     return (
       <li>
-        <p className="cursor-pointer transition duration-200 text-white hover:underline  hover:text-teal-600" onClick={onClick}>{title}</p>
-      </li>
+        <p className="cursor-pointer transition duration-200 text-white hover:underline  hover:text-teal-600">{title}</p>
+      </li >
+    )
+  }
+
+  const Dialog = ({ trigger, title, text }: IDialog) => {
+    return (
+      <AlertDialog>
+        <AlertDialogTrigger>
+          {trigger}
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{title}</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              {<div dangerouslySetInnerHTML={{ __html: text }} />}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction>Confirmar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     )
   }
 
   return (
     <header className="w-full py-4 flex items-center justify-between">
       <div className="flex px-4">
-        <h1 className="text-2xl font-bold text-white">Planning Poker</h1>
+        <h1 className="text-2xl font-bold text-white cursor-default">Planning Poker</h1>
       </div>
       <div className="flex px-4">
         <nav>
           <ul className="flex space-x-4">
-            <NavItem title="Sobre" onClick={() => console.log('Sobre clicked')} />
-            <NavItem title="Contato" onClick={() => console.log('Contato clicked')} />
+            <Dialog
+              trigger={<NavItem title="Sobre" />}
+              title="Planning Poker"
+              text={aboutText}
+            />
+            <Dialog
+              trigger={<NavItem title="Contato" />}
+              title="Contato"
+              text={contactText}
+            />
           </ul>
         </nav>
       </div>
