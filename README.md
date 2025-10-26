@@ -1,5 +1,7 @@
 # Planning Poker Scrum
 
+![screenshot](https://raw.githubusercontent.com/NaySoares/planning-poker/github/planningPokerScreen.png)
+
 ## Cartas/estimativas dos jogadores
 
 - [x] Cada jogador precisa ter uma mão de cartas.
