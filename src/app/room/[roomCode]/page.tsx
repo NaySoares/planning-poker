@@ -1,5 +1,6 @@
 'use client';
 import { IPlayer, ISelectedCard } from "@/@types/types";
+import { CloseRoomButton } from "@/components/close-room-button";
 import { ContainerCards } from "@/components/container-cards";
 import { Modal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
@@ -65,12 +66,22 @@ export default function RoomPage() {
       }
     })
 
+    socket.on("room:closed", () => {
+      toast.success("A sala foi fechada pelo mestre.");
+
+      localStorage.removeItem("playerId");
+      socket.disconnect();
+
+      router.push("/");
+    })
+
     socket.on("error", handleError);
 
     return () => {
       socket.off("room:update")
       socket.off("error")
       socket.off("notification")
+      socket.off("room:closed")
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [socket, roomCode]);
@@ -173,6 +184,7 @@ export default function RoomPage() {
       <header className="w-full p-4 text-white flex gap-2 justify-start bg-transparent items-center">
         <p className="text-sm font-bold">Sala: {roomCode}</p>
         <SharedLinkButton />
+        <CloseRoomButton />
       </header>
     )
   }
