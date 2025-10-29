@@ -7,14 +7,14 @@ import { usePlayer } from "@/store/use-player";
 
 
 export const BoxJoinRoom = () => {
-  const [roomCode, setRoomCode] = useState("");
+  const [roomCodeForm, setRoomCodeForm] = useState("");
   const [name, setName] = useState("");
 
   const router = useRouter();
-  const { setPlayerInfo } = usePlayer();
+  const { setPlayerInfo, setRoomCode } = usePlayer();
 
   const validateForm = () => {
-    if (!name.trim() || !roomCode.trim()) {
+    if (!name.trim() || !roomCodeForm.trim()) {
       toast.error("Por favor, preencha todos os campos.");
       return false;
     }
@@ -27,15 +27,16 @@ export const BoxJoinRoom = () => {
     if (!validateForm()) return;
 
     try {
-      const result = await joinRoom({ name, roomCode });
+      const result = await joinRoom({ name, roomCode: roomCodeForm });
       if (result && "playerId" in result) {
         toast.success("Entrou na sala com sucesso!");
         setName("");
-        setRoomCode("");
+        setRoomCodeForm("");
 
         localStorage.setItem('playerId', result.playerId);
-        setPlayerInfo("", name, false);
-        router.push(`/room/${roomCode}`);
+        setPlayerInfo(result.playerId, name, false);
+        setRoomCode(roomCodeForm);
+        router.push(`/room/${roomCodeForm}`);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -59,8 +60,8 @@ export const BoxJoinRoom = () => {
         <input
           type="text"
           placeholder="Código da Sala"
-          value={roomCode}
-          onChange={(e) => setRoomCode(e.target.value)}
+          value={roomCodeForm}
+          onChange={(e) => setRoomCodeForm(e.target.value)}
           className="px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-teal-500"
         />
         <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-md">

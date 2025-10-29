@@ -15,7 +15,7 @@ export const BoxNewRoom = ({ isNewRoom, setIsNewRoom }: BoxNewRoom) => {
   const [password, setPassword] = useState("");
 
   const router = useRouter();
-  const { setPlayerInfo } = usePlayer();
+  const { setPlayerInfo, setRoomCode } = usePlayer();
 
   const handleCreateRoom = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,8 +28,10 @@ export const BoxNewRoom = ({ isNewRoom, setIsNewRoom }: BoxNewRoom) => {
       if (result && 'room' in result) {
         toast.success("Sala criada com sucesso!");
 
+        console.log("playerId:", result.playerId);
         localStorage.setItem('playerId', result.playerId);
-        setPlayerInfo("", result.user.name, true);
+        setPlayerInfo(result.playerId, result.user.name, true);
+        setRoomCode(result.room.code);
 
         setEmail("");
         setPassword("");

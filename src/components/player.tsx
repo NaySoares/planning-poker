@@ -63,7 +63,8 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
 
     socket.emit("player:kick", {
       roomCode,
-      playerId,
+      kickedPlayerId: playerId,
+      requesterPlayerId: myPlayerId,
     })
   }
 
@@ -130,7 +131,6 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
         // Define se o jogador está na metade superior (sin(angle) < 0)
         const isTop = Math.sin(angle) < 0;
 
-        // Indicação: jogador local (id 1) vê sua carta selecionada
         const isLocalPlayer = p.isMaster;
         const hasVoted = isLocalPlayer && selectedCard.value !== "?";
 

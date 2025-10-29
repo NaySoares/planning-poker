@@ -2,24 +2,27 @@ import { create } from "zustand";
 
 // Player é a representação do jogador atual
 export const usePlayer = create<{
-  id: string;
+  playerId: string;
   name: string;
   isMaster: boolean;
   avatar: string;
   cardValue: string;
-  setPlayerInfo: (id: string, name: string, isMaster: boolean) => void;
+  roomCode?: string;
+  setRoomCode: (roomCode: string) => void;
+  setPlayerInfo: (playerId: string, name: string, isMaster: boolean) => void;
   setCardValue: (cardValue: string) => void;
 }>((set) => ({
 
-  id: "",
+  playerId: "",
   name: "",
   isMaster: false,
   avatar: `https://api.dicebear.com/7.x/thumbs/svg?seed=2`,
   cardValue: "",
+  roomCode: undefined,
 
-  setPlayerInfo: (id, name, isMaster) =>
+  setPlayerInfo: (playerId, name, isMaster) =>
     set(() => ({
-      id,
+      playerId,
       name,
       isMaster,
     })),
@@ -27,5 +30,10 @@ export const usePlayer = create<{
   setCardValue: (cardValue) =>
     set(() => ({
       cardValue,
+    })),
+
+  setRoomCode: (roomCode) =>
+    set(() => ({
+      roomCode,
     })),
 }));

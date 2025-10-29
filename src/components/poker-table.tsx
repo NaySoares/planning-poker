@@ -13,11 +13,6 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
   const tableRef = useRef(null);
   const [size, setSize] = useState({ width: 600, height: 300 });
 
-  const task = {
-    title: "TEST-23",
-    description: "A primeira tarefa da semana é criar a landing page com tailwindcss e react. Por favor, certifique-se de que a página seja responsiva e funcione bem em dispositivos móveis e não esqueça de adicionar animações suaves para melhorar a experiência do usuário.",
-  };
-
   useEffect(() => {
     const updateSize = () => {
       if (!tableRef.current) return;
@@ -65,11 +60,7 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
           <div className="absolute inset-8 rounded-[40px] bg-green-700 shadow-inner
           [background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_20px)]"></div>
 
-          <TaskCard
-            title={task.title}
-            description={task.description}
-          />
-
+          <TaskCard />
 
           <Player
             size={size}
