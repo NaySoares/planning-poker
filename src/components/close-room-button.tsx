@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from "./ui/alert-dialog";
 import { useSocketContext } from "@/context/SocketProvider";
 import { usePlayer } from "@/store/use-player";
+import { useRouter } from "next/navigation";
 
 interface IDialog {
   trigger: React.ReactNode;
@@ -16,12 +17,21 @@ interface IDialog {
 
 export const CloseRoomButton = () => {
   const socket = useSocketContext();
-  const { roomCode } = usePlayer();
+  const { roomCode, isMaster } = usePlayer();
+  const router = useRouter()
 
   const handleConfirm = () => {
-    socket.emit("room:close", {
-      roomCode
-    });
+    if (isMaster) {
+      socket.emit("room:close", {
+        roomCode
+      });
+    } else {
+      socket.emit("room:leave", {
+        roomCode
+      });
+
+      router.push("/");
+    }
   }
 
   const Dialog = ({ trigger, title, text, onConfirm }: IDialog) => {
@@ -46,6 +56,8 @@ export const CloseRoomButton = () => {
     )
   }
 
+  const msgExit = isMaster ? "Você está prestes a fechar a sala. Todos os jogadores serão desconectados." : "Você está prestes a sair da sala.";
+
   return (
     <>
       <Tooltip>
@@ -57,7 +69,7 @@ export const CloseRoomButton = () => {
               </Button >
             }
             title="Aviso de saída"
-            text={"Deseja realmente fechar a sala? Todos os jogadores serão desconectados."}
+            text={msgExit}
             onConfirm={() => handleConfirm()}
           />
         </TooltipTrigger>
