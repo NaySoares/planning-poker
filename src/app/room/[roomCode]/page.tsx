@@ -3,7 +3,9 @@ import { ISelectedCard } from "@/@types/types";
 import { ContainerCards } from "@/components/container-cards";
 import { Modal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
+import { SharedLinkButton } from "@/components/shared-link-button";
 import { TaskManager } from "@/components/task-manager";
+import { Button } from "@/components/ui/button";
 import { useSocketContext } from "@/context/SocketProvider";
 import { usePlayer } from "@/store/use-player";
 import { usePlayers } from "@/store/use-players";
@@ -149,14 +151,37 @@ export default function RoomPage() {
     )
   }
 
+
+  const Header = ({ roomCode }: { roomCode: string }) => {
+    return (
+      <header className="w-full p-4 text-white flex gap-2 justify-start bg-transparent items-center">
+        <p className="text-sm font-bold">Sala: {roomCode}</p>
+        <SharedLinkButton roomCode={roomCode} />
+      </header>
+    )
+  }
+
+  const imageBackground = "/background.jpg";
+  const backgroundStyle = {
+    backgroundImage: `url(${imageBackground})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundBlendMode: 'overlay',
+  };
+
   return (
-    <div className="relative w-full h-screen flex flex-col overflow-hidden">
+    <div className="relative w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 via-gray-900 to-gray-800 overflow-hidden"
+      style={backgroundStyle}
+    >
+      <Header roomCode={roomCode} />
+
       <div className="flex-1 relative flex items-center justify-center">
         <PokerTable selectedCard={selectedCard} revealCards={revealCards} />
       </div>
 
       <div className="absolute top-4 right-4 flex flex-col items-center justify-center gap-2 p-4">
-        <button className=" duration-300 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm px-4 py-2 rounded shadow transition cursor-pointer"
+        <Button className=""
           onClick={() => {
             if (round) {
               setSelectedCard({ value: "?", description: '' })
@@ -166,15 +191,15 @@ export default function RoomPage() {
           }}
         >
           {round ? 'Próxima rodada' : 'Iniciar rodada'}
-        </button>
+        </Button>
 
         {round && (
-          <button className="duration-300 hover:text-white hover:bg-teal-600 bg-teal-500 text-black text-sm px-4 py-2 rounded shadow transition cursor-pointer disabled:bg-gray-600/90 disabled:cursor-not-allowed disabled:hover:text-black"
+          <Button className="disabled:bg-gray-600/90 disabled:cursor-not-allowed disabled:hover:text-black"
             onClick={handleReveal}
             disabled={!round || selectedCard.value === "?" || revealCards}
           >
             {"Revelar cartas"}
-          </button>
+          </Button>
         )}
       </div>
 
@@ -188,6 +213,7 @@ export default function RoomPage() {
 
       <TaskManager />
       <ModalResults />
+
     </div>
   );
 }

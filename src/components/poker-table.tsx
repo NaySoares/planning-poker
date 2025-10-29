@@ -30,46 +30,33 @@ export function PokerTable({ selectedCard, revealCards }: IPokerTable) {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  const imageBackground = "/background.jpg";
-  const backgroundStyle = {
-    backgroundImage: `url(${imageBackground})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    backgroundBlendMode: 'overlay',
-  };
-
   return (
-    <>
-      <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-gray-800 via-gray-900 to-gray-800"
-        style={backgroundStyle}
+    <div>
+      {/* Mesa */}
+      <div
+        ref={tableRef}
+        // TODO: ajustar esse bottom-24
+        className="relative flex items-center justify-center rounded-[60px] border-8 border-[#814b27] shadow-2xl transition-all duration-300 bottom-24"
+        style={{
+          width: `${size.width}px`,
+          height: `${size.height}px`,
+          background:
+            "radial-gradient(circle at center, #14532d 0%, #064e3b 80%, #022c22 100%)",
+        }}
       >
-        {/* Mesa */}
-        <div
-          ref={tableRef}
-          // TODO: ajustar esse bottom-24
-          className="relative flex items-center justify-center rounded-[60px] border-8 border-[#814b27] shadow-2xl transition-all duration-300 bottom-24"
-          style={{
-            width: `${size.width}px`,
-            height: `${size.height}px`,
-            background:
-              "radial-gradient(circle at center, #14532d 0%, #064e3b 80%, #022c22 100%)",
-          }}
-        >
-          {/* Tapete interno */}
-          <div className="absolute inset-8 rounded-[40px] bg-green-700 shadow-inner
+        {/* Tapete interno */}
+        <div className="absolute inset-8 rounded-[40px] bg-green-700 shadow-inner
           [background-image:repeating-linear-gradient(45deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_20px)]"></div>
 
-          <TaskCard />
+        <TaskCard />
 
-          <Player
-            size={size}
-            selectedCard={selectedCard}
-            revealCards={revealCards}
-          />
+        <Player
+          size={size}
+          selectedCard={selectedCard}
+          revealCards={revealCards}
+        />
 
-        </div>
       </div>
-    </>
+    </div>
   );
 }

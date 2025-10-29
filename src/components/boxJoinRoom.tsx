@@ -5,9 +5,13 @@ import { joinRoom } from "@/services/api-service";
 import { useRouter } from "next/navigation";
 import { usePlayer } from "@/store/use-player";
 
+interface IBoxJoinRoom {
+  roomCode?: string;
+}
 
-export const BoxJoinRoom = () => {
-  const [roomCodeForm, setRoomCodeForm] = useState("");
+
+export const BoxJoinRoom = ({ roomCode }: IBoxJoinRoom) => {
+  const [roomCodeForm, setRoomCodeForm] = useState(roomCode || "");
   const [name, setName] = useState("");
 
   const router = useRouter();
