@@ -31,16 +31,11 @@ export const TaskManager = () => {
     };
   }, [socket]);
 
-  const validationForm = () => {
+  const addTask = () => {
     if (!title.trim()) {
       setError(true);
-      return false;
+      return;
     }
-  }
-
-  const addTask = () => {
-    validationForm();
-    if (error) return;
 
     setError(false);
 

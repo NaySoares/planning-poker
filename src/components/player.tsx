@@ -68,6 +68,20 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
     })
   }
 
+  const handleMakeMaster = (playerId: string) => {
+    const myPlayerId = localStorage.getItem('playerId');
+    if (playerId === myPlayerId) {
+      toast.error("Você já é o mestre da sala.");
+      return;
+    }
+
+    socket.emit("player:makeMaster", {
+      roomCode,
+      newMasterPlayerId: playerId,
+      requesterPlayerId: myPlayerId,
+    })
+  }
+
   const IPopoverControll = ({ children, isOnline, playerId }: IPopverControll) => {
     return (
       <Popover>
@@ -83,6 +97,7 @@ export const Player = ({ size, selectedCard, revealCards }: IPlayer) => {
                 size="icon"
                 disabled={!isOnline || !isMaster}
                 className="cursor-pointer hover:bg-teal-500 transition hover:text-white"
+                onClick={() => handleMakeMaster(playerId)}
               >
                 <Crown />
               </Button>

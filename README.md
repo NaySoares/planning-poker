@@ -19,7 +19,7 @@
 ## Interação do moderador / central
 - [ ] Controlar o início e fim da rodada.
 - [ ] Permitir reiniciar para a próxima tarefa.
-- [ ] Atualizar o quadro central para nova tarefa.
+- [x] Atualizar o quadro central para nova tarefa.
 - [x] Cadastrar várias tarefas antes e durante as rodadas
 
 ## Feedback visual
@@ -28,11 +28,12 @@
 
 ## Backend / sincronização
 
-- [ ] Precisará de WebSocket / socket.io ou outro método de sincronização para os jogadores reais.
+- [x] Precisará de WebSocket / socket.io ou outro método de sincronização para os jogadores reais.
 - [ ] Cada clique de carta deve ser enviado para o servidor e transmitido aos demais clientes.
 
 ## Responsividade / mobile
-- [ ] Ajustar mesa, avatares, e cartas para telas menores, garantindo que tudo seja clicável e visível. (opcional)
+- [x] Ajustar mesa, avatares, e cartas para telas menores, garantindo que tudo seja clicável e visível. (opcional)
+- [ ] Ajustar demais telas para mobile
 
 ## Extras
 - [ ] Contador de tempo da rodada (opcional)
@@ -41,8 +42,11 @@
 - [ ] Se houver divergência alta permitir uma reestimativa (reset da rodada), os divergentes devem concordar em não reestimar através de um botão.
 
 ## 💡 Resumo visual do fluxo ideal:
-1. Moderador seleciona tarefa → quadro central é atualizado
-2. Jogadores clicam em cartas (suas escolhas ficam privadas)
-3. Status indica quem já escolheu
-4. Moderador libera a revelação → cartas viram simultaneamente
-5. Estimativas e média podem ser mostradas → próxima rodada
+1. Mestre cria a sala
+2. Registra as tarefas
+3. Inicia a rodada → quadro central é atualizado
+4. Jogadores clicam em cartas (suas escolhas ficam privadas)
+5. Status indica quem já escolheu
+6. Mestre libera a revelação → cartas viram simultaneamente
+7. Estimativas e média podem ser mostradas
+8. Mestre inicia próxima rodada

@@ -1,5 +1,5 @@
 'use client';
-import { ISelectedCard } from "@/@types/types";
+import { IPlayer, ISelectedCard } from "@/@types/types";
 import { ContainerCards } from "@/components/container-cards";
 import { Modal } from "@/components/modal";
 import { PokerTable } from "@/components/poker-table";
@@ -27,7 +27,7 @@ export default function RoomPage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const { roomCode } = useParams<{ roomCode: string }>();
-  const { name, avatar } = usePlayer();
+  const { name, avatar, setPlayerInfo } = usePlayer();
   const { setPlayers } = usePlayers();
   const { setTasks } = useTasks();
   const socket = useSocketContext()
@@ -52,11 +52,16 @@ export default function RoomPage() {
     socket.on("room:update", (data) => {
       if (data.players) {
         verifyKicked(data.players)
+        verifyMaster(data.players)
         setPlayers(data.players)
       }
 
       if (data.tasks) {
         setTasks(data.tasks)
+      }
+
+      if (data.newMaster) {
+        verifyMaster(data.players)
       }
     })
 
@@ -92,6 +97,17 @@ export default function RoomPage() {
       }, 2000);
     }
 
+  };
+
+  const verifyMaster = (players: IPlayer[]) => {
+    const playerId = localStorage.getItem('playerId');
+    const currentPlayer = players.find(p => p.id === playerId);
+
+    if (currentPlayer && currentPlayer.isMaster) {
+      setPlayerInfo(currentPlayer.id, currentPlayer.name, true);
+    } else {
+      setPlayerInfo(currentPlayer!.id, currentPlayer!.name, false);
+    }
   };
 
   const { average, outliers } = useMemo(
@@ -156,7 +172,7 @@ export default function RoomPage() {
     return (
       <header className="w-full p-4 text-white flex gap-2 justify-start bg-transparent items-center">
         <p className="text-sm font-bold">Sala: {roomCode}</p>
-        <SharedLinkButton roomCode={roomCode} />
+        <SharedLinkButton />
       </header>
     )
   }
